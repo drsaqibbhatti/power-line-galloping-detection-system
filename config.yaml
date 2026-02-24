@@ -1,0 +1,48 @@
+video:
+  source: "0"                  # "0" webcam, or "video.mp4", or RTSP URL
+  fps_target: 20               # downsample processing fps (0 = keep native)
+  resize_width: 1280           # 0 = no resize
+  buffer_seconds: 12           # pre-event buffer for clip saving
+
+roi:
+  roi_path: "roi.json"         # polygon ROI saved by roi_tool.py
+  min_points: 80               # initial tracking points to sample inside ROI
+
+stabilization:
+  enabled: true
+  max_features: 400
+  keep_ratio: 0.7              # keep best matches
+
+tracking:
+  klt_win: 21
+  klt_max_level: 3
+  klt_max_points: 120
+  refresh_every_frames: 60     # resample points periodically
+  min_tracked_points: 25
+
+signal:
+  window_seconds: 6.0          # window for FFT + amplitude metrics
+  detrend: true
+  smooth_alpha: 0.25           # EMA smoothing of displacement signal (0..1)
+
+detector:
+  amp_px_threshold: 8.0        # peak-to-peak threshold in pixels
+  freq_hz_min: 0.1
+  freq_hz_max: 3.0
+  persist_seconds: 3.0         # must stay above threshold this long
+  cooldown_seconds: 10.0       # avoid repeated triggers
+
+outputs:
+  out_dir: "outputs"
+  save_annotated_video: true
+  save_event_clips: true
+  save_csv: true
+
+alerts:
+  webhook:
+    enabled: false
+    url: ""                    # e.g., Slack/Discord/custom endpoint
+  telegram:
+    enabled: false
+    bot_token: ""
+    chat_id: ""
